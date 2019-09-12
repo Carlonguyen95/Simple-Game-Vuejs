@@ -4,25 +4,39 @@ new Vue({
     player: {
       racial: 'human',
       health: 100,
+      alive: true,
     },
     mob: {
       racial: 'monster',
       health: 100,
+      alive: true,
     },
-    gameIsRunning: false
+    gameIsRunning: false,
+    gameAnnounceTextList: []
   },
   methods: {
     startNewGame: function () {
       this.gameIsRunning = true;
       this.player.health = this.mob.health = 100;
+      this.gameAnnounceTextList = [];
     },
     
     attack: function () {
       if (this.player.health || this.mob.health == 0) {
-
+        if (this.player.health == 0 ? this.mob.alive = true : this.player.alive = false) {
+          this.gameAnnounceTextList.push('You won the big battle!');
+        } else {
+          this.gameAnnounceTextList.push('You lost!');
+        }
       }
-      this.player.health -= this.generateRandomDamage(this.player.racial);
-      this.mob.health -= this.generateRandomDamage(this.mob.racial);
+
+      let damagePlayer;
+      let damageMonster;
+      this.player.health -= damagePlayer = this.generateRandomDamage(this.player.racial);
+      this.mob.health -= damageMonster = this.generateRandomDamage(this.mob.racial);
+
+      this.gameAnnounceTextList.push('You attacked for ' + damagePlayer);
+      this.gameAnnounceTextList.push('Monster attacked for ' + damageMonster);
     },
     attackSpecial: function () {
       
@@ -35,6 +49,7 @@ new Vue({
     giveUp: function () {
       this.gameIsRunning = false;
       this.player.health = this.mob.health = 100;
+      this.gameAnnounceTextList = [];
     },
     
     generateRandomDamage: function (racial) {

@@ -48,8 +48,8 @@
     <section class="row log">
         <div class="small-12 columns">
             <ul>
-                <li>
-
+                <li v-for="text in gameAnnounceTextList">
+                    <p>{{ text }}</p>
                 </li>
             </ul>
         </div>
