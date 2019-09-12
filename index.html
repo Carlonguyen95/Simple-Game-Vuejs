@@ -47,9 +47,10 @@
     </section>
     <section class="row log">
         <div class="small-12 columns">
+            <h2>Combat log:</h2>
             <ul>
-                <li v-for="text in gameAnnounceTextList">
-                    <p>{{ text }}</p>
+                <li v-for="(text, index) in gameAnnounceTextList">
+                    <div>{{ index+1 }}: {{ text }}</div>
                 </li>
             </ul>
         </div>

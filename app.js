@@ -22,21 +22,23 @@ new Vue({
     },
     
     attack: function () {
-      if (this.player.health || this.mob.health == 0) {
-        if (this.player.health == 0 ? this.mob.alive = true : this.player.alive = false) {
-          this.gameAnnounceTextList.push('You won the big battle!');
-        } else {
-          this.gameAnnounceTextList.push('You lost!');
-        }
-      }
-
       let damagePlayer;
       let damageMonster;
       this.player.health -= damagePlayer = this.generateRandomDamage(this.player.racial);
       this.mob.health -= damageMonster = this.generateRandomDamage(this.mob.racial);
 
-      this.gameAnnounceTextList.push('You attacked for ' + damagePlayer);
-      this.gameAnnounceTextList.push('Monster attacked for ' + damageMonster);
+      if (this.player.health <= 0 || this.mob.health <= 0) {
+        this.gameIsRunning = false;
+        if (this.player.health <= 0 ? this.mob.alive = true : this.player.alive = false) {
+          this.gameAnnounceTextList.push('You lost!');
+        } else {
+          this.gameAnnounceTextList.push('You won the big battle!');
+        }
+        return;
+      }
+
+      this.gameAnnounceTextList.push('Monster attacked for ' + damagePlayer);
+      this.gameAnnounceTextList.push('You attacked for ' + damageMonster);
     },
     attackSpecial: function () {
       
