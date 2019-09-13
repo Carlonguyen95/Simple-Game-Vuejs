@@ -45,6 +45,11 @@
     background-color: #ffc0c1;
 }
 
+.log ul .heal-turn {
+    color: green;
+    background-color: #aaffb0;
+}
+
 button {
     font-size: 20px;
     background-color: #eee;

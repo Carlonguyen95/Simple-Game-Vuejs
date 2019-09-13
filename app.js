@@ -66,6 +66,9 @@ new Vue({
       let heal;
       heal = Math.max(Math.floor(Math.random() * 40) + 1, 20);
       this.player.health += heal;
+      if(this.player.health >= 100){
+        this.player.health = 100;
+      }
       this.gameAnnounceUpdate(heal, "", "");
       this.monsterAttack();
       this.checkWin();
@@ -73,7 +76,6 @@ new Vue({
     
     giveUp: function () {
       this.gameIsRunning = false;
-      this.player.health = this.mob.health = this.initialHealth;
       this.gameAnnounceTextList = [];
     },
 
@@ -102,25 +104,34 @@ new Vue({
       if (this.player.health <= 0) {
         this.gameIsRunning = false;
         this.player.alive = false;
-        this.gameAnnounceTextList.push('You have been defeated!');
+        this.gameAnnounceTextList.unshift('You have been defeated!');
         // this.startNewGame();
       }
       if (this.mob.health <= 0) {
         this.mob.alive = false;
         this.gameIsRunning = false;
-        this.gameAnnounceTextList.push('You won the battle!');
+        this.gameAnnounceTextList.unshift('You won the battle!');
         // this.startNewGame();
       }
     },
     gameAnnounceUpdate: function (heal, playerAttack, monsterAttack) {
       if(heal.length != 0){
-        this.gameAnnounceTextList.push('You healed for ' + heal + ' health!');
+        this.gameAnnounceTextList.unshift({
+          heal: true,
+          text: 'You healed for ' + heal + ' health!'
+        });
       }
       if(playerAttack.length != 0){
-        this.gameAnnounceTextList.push('You hit for ' + playerAttack + ' damage!');
+        this.gameAnnounceTextList.unshift({
+            isPlayer: true,
+            text: 'You hit for ' + playerAttack + ' damage!'
+        });
       }
       if(monsterAttack.length != 0){
-        this.gameAnnounceTextList.push('Monster attacked for ' + monsterAttack + ' damage!');
+        this.gameAnnounceTextList.unshift({
+          isPlayer: false,
+          text: 'Monster attacked for ' + monsterAttack + ' damage!'
+        });
       }
     }
   }

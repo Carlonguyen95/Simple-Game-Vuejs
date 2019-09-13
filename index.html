@@ -45,12 +45,13 @@
             <button id="give-up" @click="giveUp">GIVE UP</button>
         </div>
     </section>
-    <section class="row log">
+    <section class="row log" v-if="gameAnnounceTextList.length > 0">
         <div class="small-12 columns">
             <h2>Combat log:</h2>
             <ul>
-                <li v-for="(text, index) in gameAnnounceTextList">
-                    <div>{{ index+1 }}: {{ text }}</div>
+                <li v-for="turn in gameAnnounceTextList"
+                    :class="{'player-turn': turn.isPlayer, 'monster-turn': !turn.isPlayer, 'heal-turn': turn.heal}">
+                    {{ turn.text }}
                 </li>
             </ul>
         </div>
