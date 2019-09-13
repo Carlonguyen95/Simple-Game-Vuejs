@@ -15,30 +15,31 @@ new Vue({
     gameAnnounceTextList: []
   },
   methods: {
-    startNewGame: function () {
+    startGame: function () {
       this.gameIsRunning = true;
       this.player.health = this.mob.health = 100;
       this.gameAnnounceTextList = [];
     },
-    
+    startNewGame: function () {
+      if (confirm('New game?')) {
+        this.startGame();
+      } else {
+        this.gameIsRunning = false;
+      }
+    },
+
     attack: function () {
+      // if(this.checkWin()){
+      //   return;
+      // }
       let damagePlayer;
       let damageMonster;
-      this.player.health -= damagePlayer = this.generateRandomDamage(this.player.racial);
-      this.mob.health -= damageMonster = this.generateRandomDamage(this.mob.racial);
-
-      if (this.player.health <= 0 || this.mob.health <= 0) {
-        this.gameIsRunning = false;
-        if (this.player.health <= 0 ? this.mob.alive = true : this.player.alive = false) {
-          this.gameAnnounceTextList.push('You lost!');
-        } else {
-          this.gameAnnounceTextList.push('You won the big battle!');
-        }
-        return;
-      }
+      this.player.health -= damagePlayer = this.generateDamage(this.player.racial);
+      this.mob.health -= damageMonster = this.generateDamage(this.mob.racial);
 
       this.gameAnnounceTextList.push('Monster attacked for ' + damagePlayer);
       this.gameAnnounceTextList.push('You attacked for ' + damageMonster);
+      this.checkWin();
     },
     attackSpecial: function () {
       
@@ -54,7 +55,7 @@ new Vue({
       this.gameAnnounceTextList = [];
     },
     
-    generateRandomDamage: function (racial) {
+    generateDamage: function (racial) {
       let damageMax = 10;
       let damageMin = 3;
       let damage = 0;
@@ -67,6 +68,22 @@ new Vue({
       }
 
       return damage;
+    },
+
+    checkWin: function () {
+      if (this.player.health <= 0 || this.mob.health <= 0) {
+        this.gameIsRunning = false;
+        if (this.player.health <= 0 ? this.mob.alive = true : this.player.alive = false) {
+          this.gameAnnounceTextList.push('You lost!');
+          this.startNewGame();
+          return true;
+        } else {
+          this.gameAnnounceTextList.push('You won the big battle!');
+          this.startNewGame();
+          return true;
+        }
+      }
+      return false;
     }
   }
 })
