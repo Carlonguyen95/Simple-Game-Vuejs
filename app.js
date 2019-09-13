@@ -24,13 +24,6 @@ new Vue({
       this.player.health = this.mob.health = this.initialHealth;
       this.gameAnnounceTextList = [];
     },
-    startNewGame: function () {
-      if (confirm('Start a new game?')) {
-        this.startGame();
-      } else {
-        this.gameIsRunning = false;
-      }
-    },
 
     attack: function () {
       this.monsterAttack();
@@ -105,13 +98,11 @@ new Vue({
         this.gameIsRunning = false;
         this.player.alive = false;
         this.gameAnnounceTextList.unshift('You have been defeated!');
-        // this.startNewGame();
       }
       if (this.mob.health <= 0) {
         this.mob.alive = false;
         this.gameIsRunning = false;
         this.gameAnnounceTextList.unshift('You won the battle!');
-        // this.startNewGame();
       }
     },
     gameAnnounceUpdate: function (heal, playerAttack, monsterAttack) {
